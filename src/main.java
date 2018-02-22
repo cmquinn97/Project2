@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class main {
 
 	public static void main(String[] args) {
+		
 		Random r = new Random();
 
 		Lists queue = new Lists();
@@ -22,7 +24,16 @@ public class main {
 		}
 			queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
 			while(queue.bRoom.size()>0){
-				queue.bRoom.get(0).Depart(queue.bRoom, queue.queue);
+				int remove = 0;
+				int lowTime = 100;
+				for (OnePerson person : queue.bRoom){
+					if(person.time < lowTime ){
+						lowTime = person.time;
+						remove = queue.bRoom.indexOf(person);
+					}
+					
+				}
+				queue.bRoom.get(remove).Depart(queue.bRoom, queue.queue, remove);
 			}
 			
 		
@@ -33,7 +44,7 @@ public class main {
 
 class OnePerson{
 	int id, gender, time;
-	static int facilities;
+	static int timeTotal;
 
 	OnePerson(int id, int gender, int time){
 		this.id = id;
@@ -56,7 +67,8 @@ class OnePerson{
 	public void UseFacilities(ArrayList<OnePerson> queue, ArrayList<OnePerson> bRoom){
 		
 		bRoom.add(this);
-		System.out.println(this.id + "Enters" + this.time);
+		System.out.println(this.id + " Enters " + this.time + " minutes");
+		this.time = this.time + timeTotal;
 		queue.remove(this);
 		try{
 			if((queue.get(0).gender == this.gender) && bRoom.size()<3) {
@@ -68,9 +80,11 @@ class OnePerson{
 		
 	}
 	
-	public void Depart(ArrayList<OnePerson> bRoom,ArrayList<OnePerson> queue ){
-		bRoom.remove(0);
-		System.out.println(this.id + " left");
+	public void Depart(ArrayList<OnePerson> bRoom,ArrayList<OnePerson> queue, int remove ){
+		bRoom.remove(remove);
+		timeTotal = timeTotal + (this.time - timeTotal);
+		
+		System.out.println(this.id + " left " + "Total: " + timeTotal);
 		if(!queue.isEmpty()){
 			if((bRoom.isEmpty()) || bRoom.get(0).gender == queue.get(0).gender ){
 				queue.get(0).UseFacilities(queue, bRoom);
@@ -84,5 +98,7 @@ class Lists{
 	ArrayList<OnePerson> queue = new ArrayList<OnePerson>();
 	ArrayList<OnePerson> bRoom = new ArrayList<OnePerson>();
 }
+
+
 
 
