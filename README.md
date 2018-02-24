@@ -4,15 +4,15 @@ This assignment is adapted from one used by Jim X. Chen in the Operating Systems
 
 The goal of this assignment is to give you experience writing multi-threaded programs. In your system, each person arriving at a restroom will be represented by a thread:
 
-  OnePerson(int id, int gender, int time) {
+    OnePerson(int id, int gender, int time) {
 
-  Arrive(id, gender);
+    Arrive(id, gender);
 
-  UseFacilities(id, gender, time);
+    UseFacilities(id, gender, time);
 
-  Depart(id, gender);
+    Depart(id, gender);
 
-  }
+    }
 
 In the code above
 
