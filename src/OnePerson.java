@@ -32,11 +32,7 @@ class OnePerson{
 		System.out.println("Time: "+ timeTotal + "; Person " + this.id + genderChar + " Enters the facilities for " + this.time + " minutes");
 		this.time = this.time + timeTotal;
 		queue.remove(this);
-		try{
-			if(!bRoom.isEmpty()&& bRoom.size() < 2){
-				Lists.NextUser(queue, bRoom).UseFacilities(queue, bRoom);
-			}	
-		}catch(IndexOutOfBoundsException e){}	
+		
 	}
 	
 	
