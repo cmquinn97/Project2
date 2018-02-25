@@ -45,7 +45,7 @@ public class main {
 			}
 		}
 		//Starts the simulation
-		queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
+		else{queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);}
 		bRoomProcess(queue);
 			
 	}
@@ -139,6 +139,7 @@ class Lists{
 	ArrayList<OnePerson> queue = new ArrayList<OnePerson>();
 	ArrayList<OnePerson> bRoom = new ArrayList<OnePerson>();
 	
+	//finds the next person to enter the bRoom
 	public static OnePerson NextUser(ArrayList<OnePerson> queue, ArrayList<OnePerson> bRoom){
 		OnePerson returnPerson = null;
 			if(bRoom.isEmpty()){
