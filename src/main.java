@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class main {
 	static boolean one = false;
@@ -12,7 +13,22 @@ public class main {
 
 	public static void main(String[] args) {
 		Lists queue = new Lists();
-		three = true;
+		Scanner kb = new Scanner(System.in);
+		
+		System.out.println("Enter the number in parantheses to choose \n (1)Option one: All 20 at once \n (2)Option two: 5 at a time with three delays of 10 \n "
+				+ "(3)Option three: 10 at a time with one delay");
+		String option = kb.next();
+		
+		if(option.equals("1")){
+			one = true;
+		}
+		else if(option.equals("2")){
+			two = true;
+		}
+		else if(option.equals("3")){
+			three = true;
+		}
+		
 		if(one){
 			populateQueue(20, queue);
 		}
@@ -28,6 +44,7 @@ public class main {
 				queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
 			}
 		}
+		//Starts the simulation
 		queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
 		bRoomProcess(queue);
 			
@@ -78,11 +95,14 @@ public class main {
 					break;
 				}
 				//Checks for the situation where three would be able to enter
-				if(queue.queue.get(0).gender == queue.queue.get(1).gender && queue.queue.get(1).gender == queue.queue.get(2).gender){
-					while(queue.bRoom.size()<2){
-						queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
+				if(queue.queue.size() > 2){
+					if(queue.queue.get(0).gender == queue.queue.get(1).gender && queue.queue.get(1).gender == queue.queue.get(2).gender){
+						while(queue.bRoom.size()<2){
+							queue.queue.get(0).UseFacilities(queue.queue, queue.bRoom);
+						}
 					}
 				}
+				
 				try{
 					Lists.NextUser(queue.queue, queue.bRoom).UseFacilities(queue.queue, queue.bRoom);
 				}catch(NullPointerException e){
@@ -112,53 +132,7 @@ public class main {
 }
 
 
-class OnePerson{
-	int id, gender, time;
-	static int timeTotal, departure = 0;
-	String genderChar;
-	
-	
 
-	OnePerson(int id, int gender, int time){
-		this.id = id;
-		this.gender = gender;
-		this.time = time;
-		
-		if (this.gender == 0){
-			genderChar = " (F)";
-		}else{
-			genderChar = " (M)";
-		}
-	}
-	
-	
-	public void Arrive(ArrayList<OnePerson> queue){
-		queue.add(this);
-		System.out.println("Person " + this.id + " has arrived." + genderChar);
-		
-	}
-	
-	public void UseFacilities(ArrayList<OnePerson> queue, ArrayList<OnePerson> bRoom){
-		
-		bRoom.add(this);
-		System.out.println("Time: "+ timeTotal + "; Person " + this.id + genderChar + " Enters the facilities for " + this.time + " minutes");
-		this.time = this.time + timeTotal;
-		queue.remove(this);
-		try{
-			if(!bRoom.isEmpty()&& bRoom.size() < 2){
-				Lists.NextUser(queue, bRoom).UseFacilities(queue, bRoom);
-			}	
-		}catch(IndexOutOfBoundsException e){}	
-	}
-	
-	
-	public void Depart(ArrayList<OnePerson> bRoom,ArrayList<OnePerson> queue){
-		bRoom.remove(this);
-		departure++;
-		System.out.println("Time: "+ timeTotal + "; Person " + this.id + genderChar + " exits." + " Departure = " + departure);
-		
-	}
-}
  
 class Lists{
 	
